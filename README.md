@@ -33,6 +33,8 @@ The output of that will look something like this:
 
 As written at the moment you'll get a 16 bit per RGBA channel per pixel .tiff file, as well as a .png The image above is the .tiff file, converted to .png in image editing software.
 
+There's also a file in here called "vaeCompress.py". This can take a regular-size image (size, currently, limited to what will fit at once in the vram of your graphics card, or in your ram/cpu if you dare) and turn it into a latent space "image". Basically what the image2image process does, except the code (currently) doesn't add any noise to the image. I originally started this to explore VAE-only compression of images, but hey sometimes there's scope creep.
+
 TODO:
 -----
 1.) remove dependencies on diffusers
