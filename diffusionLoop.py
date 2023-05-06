@@ -1,10 +1,9 @@
 import numpy
 import torch
-from diffusers import LMSDiscreteScheduler, UNet2DConditionModel
+from diffusers import LMSDiscreteScheduler, UNet2DConditionModel #TODO: so far haven't found a good replacement, leaving for now
 from huggingface_hub import notebook_login
 from torch import autocast
 from tqdm.auto import tqdm
-import tifffile as tf
 
 import argparse as ap
 import tifffile as tf
@@ -17,6 +16,7 @@ parser = ap.ArgumentParser(
 parser.add_argument('savestate')
 parser.add_argument('-i', '--inference_steps', default=20, type=int)
 parser.add_argument('-g', '--guidance_scale', default=7, type=int)
+parser.add_argument('-m', '--model_path', default="runwayml/stable-diffusion-v1-5")
 
 # args = parser.parse_args
 args = vars(parser.parse_args())
@@ -27,9 +27,10 @@ num_inference_steps = args['inference_steps']
 guidance_scale = args['guidance_scale']               
 batch_size = 1
 
-unet = UNet2DConditionModel.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="unet", torch_dtype=torch.float16)
+unet = UNet2DConditionModel.from_pretrained(args['model_path'], subfolder="unet", torch_dtype=torch.float16)
 unet = unet.to(torch_device, torch.float16)
 
+#TODO: get other types of schedulers and a good way to pick them:
 scheduler = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear", num_train_timesteps=1000)
 scheduler.set_timesteps(num_inference_steps)
 
