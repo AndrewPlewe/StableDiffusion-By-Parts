@@ -37,7 +37,7 @@ There's also a file in here called "vaeCompress.py". This can take a regular-siz
 
 Quick and dirty tech specs for TIFFSD format:
 
-TIFFs can save pixels and 16 bit and 32 bit floating point numbers. This is awesome, and I'm doing that here. Not entirely sure of the channel order, but generally it doesn't matter. IF you edit one of these (like, say, trimming off parts of a latent space "image" to do manual tiling), BE SURE YOU SAVE IN 16 OR 32 BIT PER RGBA CHANNEL PER PIXEL FORMAT. The things I've tried usually only save integers. This will ruin your day. So, abide by the rules of the TIFF and you'll be golden. Basically the data saved is straight off the GPU in the format Stable Diffusion likes, I only pull off a "wrapper" dimension that isn't really necessary (see the code for details). You do have to add that back on, though, when you re-load the .tiff
+TIFFs can save pixels using 16 bit and 32 bit floating point numbers for each RGBA channel, along with multiple "pages" of different dimensions. This is awesome, and I'm doing that here. Not entirely sure of the channel order, but generally it doesn't matter. IF you edit one of these (like, say, trimming off parts of a latent space "image" to do manual tiling), BE SURE YOU SAVE IN 16 OR 32 BIT PER RGBA CHANNEL PER PIXEL FORMAT. The things I've tried usually only save integers. This will ruin your day. So, abide by the rules of the TIFF and you'll be golden. Basically the data saved is straight off the GPU in the format Stable Diffusion likes, I only pull off a "wrapper" dimension that isn't really necessary (see the code for details). You do have to add that back on, though, when you re-load the .tiff
 
 
 
