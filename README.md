@@ -31,7 +31,7 @@ The output of that will look something like this:
 
 ![savestate3](https://user-images.githubusercontent.com/7604556/236593446-4a6daa04-a649-4184-9fbe-f444a6cbf03e.png)
 
-As written at the moment you'll get a 16 bit per pixel .tiff file, as well as a .png The image above is the .tiff file, converted to .png in image editing software.
+As written at the moment you'll get a 16 bit per RGBA channel per pixel .tiff file, as well as a .png The image above is the .tiff file, converted to .png in image editing software.
 
 TODO:
 -----
