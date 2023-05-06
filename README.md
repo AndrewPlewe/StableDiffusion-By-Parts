@@ -6,5 +6,7 @@ This is prototype code, so it has hard-coded values and requires manual love to 
 TODO:
 -----
 1.) remove dependencies on diffusers
+
 2.) more/better input params
+
 3.) add support for .ckpt files and other similar bits
