@@ -17,7 +17,7 @@ and this:
 
 ![savetext](https://user-images.githubusercontent.com/7604556/236593243-67383773-5c82-49fc-894b-9ce73e730f65.png)
 
-The first is the ramdomized latent space "image", and the second is the text "embedding".
+The first is the ramdomized latent space "image", and the second is the text "embedding". The adventerous can use the second TIFFSD file as a way to save a prompt, which can then be used with any latent space "image" in the diffusion loop below.
 
 
 `python diffusionLoop.py "d:\test\Deer3" -i 30 -g 7` -- This will take those two files and then run the diffusion loop using their contents, 30 iterations CFG 7
