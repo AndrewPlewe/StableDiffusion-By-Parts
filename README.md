@@ -12,3 +12,5 @@ TODO:
 3.) add support for .ckpt files and other similar bits
 
 4.) frickin' vae tiling
+
+5.) Marry the text embedding to the latents after running "textToLatent.py", as an option.
