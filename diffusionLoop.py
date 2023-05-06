@@ -66,7 +66,7 @@ with autocast("cuda"):
 
 # scale and decode the image latents with vae
 # my own calc for this:
-latent_scale = (0.19755/7.5) * guidance_scale
+latent_scale = (0.19503/7.5) * guidance_scale
 latent_scale = latent_scale if guidance_scale > 7.5 else 0.18215
 latents = (1 / latent_scale) * latents
 
