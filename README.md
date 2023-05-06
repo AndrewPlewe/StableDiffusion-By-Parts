@@ -20,13 +20,13 @@ and this:
 The first is the ramdomized latent space "image", and the second is the text "embedding". The adventerous can use the second TIFFSD file as a way to save a prompt, which can then be used with any latent space "image" in the diffusion loop below.
 
 
-`python diffusionLoop.py "d:\test\Cat1" -i 30 -g 7` -- This will take those two files and then run the diffusion loop using their contents, 30 iterations CFG 7
+`python diffusionLoop.py "c:\test\Cat1" -i 30 -g 7` -- This will take those two files and then run the diffusion loop using their contents, 30 iterations CFG 7
 
 The output of that will look something like this: 
 
 ![savestate2](https://user-images.githubusercontent.com/7604556/236593303-a6e362b7-15bc-4c5c-b33f-6f240e3a2f21.png)
 
-`python vaeDecompress.py "d:\test\Cat1_state2.tiff" -o "d:\test\Cat1_84.png" -v 'vae84' `-- This will upscale the latent "image" from the previous output to full size using a local VAE model in the "vae84" folder in the directory where this script is located. Can also be an absolute/relative path. The output will be your actual image. If you've read this far, you deserve a cat pic:
+`python vaeDecompress.py "c:\test\Cat1_state2.tiff" -o "d:\test\Cat1_84.png" -v 'vae84' `-- This will upscale the latent "image" from the previous output to full size using a local VAE model in the "vae84" folder in the directory where this script is located. Can also be an absolute/relative path. The output will be your actual image. If you've read this far, you deserve a cat pic:
 
 
 ![savestate3](https://user-images.githubusercontent.com/7604556/236593446-4a6daa04-a649-4184-9fbe-f444a6cbf03e.png)
