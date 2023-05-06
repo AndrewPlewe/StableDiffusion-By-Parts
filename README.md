@@ -1,5 +1,8 @@
 # StableDiffusion-By-Parts
-Slice and dice the Stable Diffusion pipeline, saving to a TIFF file (what I'm calling "TIFFSD") in between sections.
+# WARNING USE AT YOUR OWN RISK PROTOTYPE SOFTWARE NOT FOR PEOPLE WHO DON'T UNDERSTAND CODE
+nicer version will come later.
+
+Slice and dice the Stable Diffusion pipeline, saving to a TIFF file (what I'm calling "TIFFSD" format) in between sections.
 
 This is prototype code, so it has hard-coded values and requires manual love to use it for anything other than testing. A Huggingface account is required at this stage, unless you change that part of the code yourself, which is fine. 
 
