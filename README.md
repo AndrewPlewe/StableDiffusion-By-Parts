@@ -8,7 +8,7 @@ This is prototype code, so it has hard-coded values and requires manual love to 
 
 Example Run:
 
-`python textToLatent.py "a highly detailed photo of a cat" -o "c:\test\cat1" -w 768 -he 512 -i 4` -- This will output two files to the directory "test" with "cat1" prepended.
+`python textToLatent.py "a highly detailed photo of a cat" -o "c:\test\cat1" -w 768 -he 512 -i 30` -- This will output two files to the directory "test" with "cat1" prepended.
 Those files will look something like this: 
 
 ![savestate1](https://user-images.githubusercontent.com/7604556/236593217-576cf858-3e40-44f6-95a9-f68023ceed06.png)
