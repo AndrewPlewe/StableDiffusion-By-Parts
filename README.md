@@ -2,7 +2,8 @@
 # WARNING USE AT YOUR OWN RISK PROTOTYPE SOFTWARE NOT FOR PEOPLE WHO DON'T UNDERSTAND CODE
 nicer version will come later.
 
-Update: Add an "Example Artifacts" folder with TIFFSD format .tiff files. Stage 1 = creating the latents and the prompt, Stage 2 = after diffusion loop, before VAE, Stage 3 = "raw" .tiff containing the 16 bit per color channel output of the VAE, before conversion to unit8 as a png file. This can also be 32 bits, it comes directly from the VAE so a 32 bit VAE will produce a 32 bit output.
+# Update (05/06/2023): 
+Added an "Example Artifacts" folder with TIFFSD format .tiff files. Stage 1 = creating the latents and the prompt, Stage 2 = after diffusion loop, before VAE, Stage 3 = "raw" .tiff containing the 16 bit per color channel output of the VAE, before conversion to unit8 as a png file. This can also be 32 bits, it comes directly from the VAE so a 32 bit VAE will produce a 32 bit output.
 
 Slice and dice the Stable Diffusion pipeline, saving to a TIFF file (what I'm calling "TIFFSD" format) in between sections.
 
