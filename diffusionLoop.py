@@ -14,8 +14,8 @@ parser = ap.ArgumentParser(
                     epilog='Rock on and pic more!')
 
 parser.add_argument('savestate')
-parser.add_argument('-l', '--latent_image')
-parser.add_argument('-t', '--text_embedding')
+parser.add_argument('-l', '--latent_image', default="")
+parser.add_argument('-t', '--text_embedding', default="")
 parser.add_argument('-i', '--inference_steps', default=20, type=int)
 parser.add_argument('-g', '--guidance_scale', default=7, type=int)
 parser.add_argument('-m', '--model_path', default="runwayml/stable-diffusion-v1-5")
@@ -36,10 +36,18 @@ unet = unet.to(torch_device, torch.float16)
 scheduler = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear", num_train_timesteps=1000)
 scheduler.set_timesteps(num_inference_steps)
 
+latent_image = args["latent_image"]
 
+if latent_image == "":
+    latent_image = args["savestate"] + "_latent.tiff"
+
+text_embedding = args["text_embedding"]
+
+if text_embedding == "":
+    text_embedding = args["savestate"] + "_prompt.tiff"
 
 #encoded = tf.imread(args["savestate"] + "_state1.tiff")
-encoded = tf.imread(args["latent_image"])
+encoded = tf.imread(latent_image)
 encoded2 = torch.from_numpy(numpy.expand_dims(encoded, 0))
 
 #tcoded = tf.imread(args["savestate"] + "_textstate1.tiff")
