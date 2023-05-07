@@ -11,14 +11,16 @@ import tifffile as tf
 
 parser = ap.ArgumentParser(
                     prog='textToLatent',
-                    description='Put in a text prompt, and out pops the latent as a TIFF file (TIFFSD) for the latent and a TIFF file for the text embedding.',
+                    description='Put in a text prompt, and out pops the latent as a TIFF file (TIFFSD) for the latent and a TIFFSD file for the text embedding.',
                     epilog='Rock on and pic more!')
 
 parser.add_argument('prompt')
+parser.add_argument('-n', '--negative_prompt',default="")
 parser.add_argument('-o', '--outputFilename')
 parser.add_argument('-w', '--width', default=512, type=int)
 parser.add_argument('-he', '--height', default=512, type=int)
 parser.add_argument('-i', '--inference_steps', default=20, type=int)
+
 
 # args = parser.parse_args
 args = vars(parser.parse_args())
@@ -32,6 +34,7 @@ logging.set_verbosity_error()
 torch_device = "cpu"
 
 prompt = [args["prompt"]]
+neg_prompt = [args["negative_prompt"]]
 height = args["height"]                   # default height of Stable Diffusion
 width = args["width"]                 # default width of Stable Diffusion
 generator = torch.manual_seed(random.randint(1,99999999999999999))   # Seed generator to create the inital latent noise
@@ -72,5 +75,5 @@ latents = latents * scheduler.init_noise_sigma # Scaling (previous versions did 
 
 imagearray = latents[0].cpu().numpy()
 #imagearray = numpy.vstack((imagearray, text_embeddings.cpu()))
-tf.imwrite(args["outputFilename"] + "_state1.tiff", imagearray, dtype='float16')
-tf.imwrite(args["outputFilename"] + "_textstate1.tiff", text_embeddings.numpy())
+tf.imwrite(args["outputFilename"] + "_latent.tiff", imagearray, dtype='float16')
+tf.imwrite(args["outputFilename"] + "_prompt.tiff", text_embeddings.numpy())
