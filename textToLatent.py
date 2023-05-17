@@ -20,6 +20,8 @@ parser.add_argument('-o', '--outputFilename')
 parser.add_argument('-w', '--width', default=512, type=int)
 parser.add_argument('-he', '--height', default=512, type=int)
 parser.add_argument('-i', '--inference_steps', default=20, type=int)
+parser.add_argument('-mu', '--model_unet_location', default="runwayml/stable-diffusion-v1-5")
+parser.add_argument('-mc', '--model_clip_location', default="openai/clip-vit-large-patch14")
 
 
 # args = parser.parse_args
@@ -42,11 +44,11 @@ batch_size = 1
 num_inference_steps = args['inference_steps']
 
 # Load the tokenizer and text encoder to tokenize and encode the text. 
-tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
-text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14")
+tokenizer = CLIPTokenizer.from_pretrained(args["model_clip_location"])
+text_encoder = CLIPTextModel.from_pretrained(args["model_clip_location"])
 
 # The UNet model for generating the latents, we only really need it for the config to get in_channels:
-unet = UNet2DConditionModel.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="unet")
+unet = UNet2DConditionModel.from_pretrained(args["model_unet_location"], subfolder="unet")
 
 scheduler = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear", num_train_timesteps=1000)
 scheduler.set_timesteps(num_inference_steps)

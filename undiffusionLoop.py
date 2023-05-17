@@ -19,8 +19,6 @@ parser.add_argument('-t', '--text_embedding', default="")
 parser.add_argument('-i', '--inference_steps', default=20, type=int)
 parser.add_argument('-g', '--guidance_scale', default=7, type=int)
 parser.add_argument('-m', '--model_path', default="runwayml/stable-diffusion-v1-5")
-parser.add_argument('-pi', '--prompt_influence', default=1.0, type=float)
-parser.add_argument('-li', '--latent_influence', default=1.0, type=float)
 
 # args = parser.parse_args
 args = vars(parser.parse_args())
@@ -50,13 +48,12 @@ if text_embedding == "":
 
 #encoded = tf.imread(args["savestate"] + "_state1.tiff")
 encoded = tf.imread(latent_image)
-encoded = encoded * args["latent_influence"]
 encoded2 = torch.from_numpy(numpy.expand_dims(encoded, 0))
 
 #tcoded = tf.imread(args["savestate"] + "_textstate1.tiff")
 tcoded = tf.imread(args["text_embedding"])
-tcoded = tcoded * args["prompt_influence"]
-text_embeddings = torch.from_numpy(tcoded)
+tcoded2 = tcoded.astype(numpy.float16)
+text_embeddings = torch.from_numpy(tcoded2)
 
 with torch.no_grad():
     text_embeddings = text_embeddings.to(torch_device, torch.float16)
@@ -65,10 +62,10 @@ latents = encoded2.to(torch_device, torch.float16)
 
 # Loop
 with autocast("cuda"):
-    for i, t in tqdm(enumerate(scheduler.timesteps)):
+    for i, t in tqdm(enumerate(reversed((scheduler.timesteps)))):
 
         latent_model_input = torch.cat([latents] * 2)
-        #sigma = scheduler.sigmas[i]
+        #sigma = scheduler.sigmas[num_inference_steps - i]
 
         latent_model_input = scheduler.scale_model_input(latent_model_input, t)
 
@@ -81,16 +78,11 @@ with autocast("cuda"):
         noise_pred = noise_pred_uncond + guidance_scale * (noise_pred_text - noise_pred_uncond)
         
         #update latents
-        latents = scheduler.step(noise_pred, t, latents).prev_sample
+        latents = scheduler.step(noise_pred, t, latents).pred_original_sample
 
         #save out a TIFFSD thingie:
         imagearray = latents[0].cpu().numpy()
         tf.imwrite(args["savestate"] + "_" + str(i) + "_unet.tiff", imagearray, dtype='float16')
-
-        if i == 1:
-            #experiments show prompt is modified during first pass of inference, so save it out too:
-            imagearray2 = text_embeddings.cpu().numpy()
-            tf.imwrite(args["savestate"] + "_" + str(i) + "_prompt_unet.tiff", imagearray2, dtype='float16')
 
 # scale and decode the image latents with vae
 # my own calc for this:
@@ -100,7 +92,3 @@ latents = (1 / latent_scale) * latents
 
 imagearray = latents[0].cpu().numpy()
 tf.imwrite(args["savestate"] + "_unet.tiff", imagearray, dtype='float16')
-
-#experiments show prompt is modified during inference, so save it out too:
-imagearray2 = text_embeddings.cpu().numpy()
-tf.imwrite(args["savestate"] + "_prompt_unet.tiff", imagearray2, dtype='float16')
