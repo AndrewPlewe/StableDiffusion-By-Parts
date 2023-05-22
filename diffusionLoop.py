@@ -85,7 +85,7 @@ with autocast("cuda"):
         latents = scheduler.step(noise_pred, t, latents).prev_sample
 
         #save out a TIFFSD thingie, optionally:
-        if args["loop_output"] == True:
+        if args["loop_outputs"] == True:
             imagearray = latents[0].cpu().numpy()
             tf.imwrite(args["savestate"] + "_" + str(i) + "_unet.tiff", imagearray, dtype='float16')
 
