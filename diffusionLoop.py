@@ -21,6 +21,7 @@ parser.add_argument('-g', '--guidance_scale', default=7, type=int)
 parser.add_argument('-m', '--model_path', default="runwayml/stable-diffusion-v1-5")
 parser.add_argument('-pi', '--prompt_influence', default=1.0, type=float)
 parser.add_argument('-li', '--latent_influence', default=1.0, type=float)
+parser.add_argument('-lo', '--loop_outputs', default=False)
 
 # args = parser.parse_args
 args = vars(parser.parse_args())
@@ -83,14 +84,10 @@ with autocast("cuda"):
         #update latents
         latents = scheduler.step(noise_pred, t, latents).prev_sample
 
-        #save out a TIFFSD thingie:
-        imagearray = latents[0].cpu().numpy()
-        tf.imwrite(args["savestate"] + "_" + str(i) + "_unet.tiff", imagearray, dtype='float16')
-
-        if i == 1:
-            #experiments show prompt is modified during first pass of inference, so save it out too:
-            imagearray2 = text_embeddings.cpu().numpy()
-            tf.imwrite(args["savestate"] + "_" + str(i) + "_prompt_unet.tiff", imagearray2, dtype='float16')
+        #save out a TIFFSD thingie, optionally:
+        if args["loop_output"] == True:
+            imagearray = latents[0].cpu().numpy()
+            tf.imwrite(args["savestate"] + "_" + str(i) + "_unet.tiff", imagearray, dtype='float16')
 
 # scale and decode the image latents with vae
 # my own calc for this:
@@ -101,6 +98,6 @@ latents = (1 / latent_scale) * latents
 imagearray = latents[0].cpu().numpy()
 tf.imwrite(args["savestate"] + "_unet.tiff", imagearray, dtype='float16')
 
-#experiments show prompt is modified during inference, so save it out too:
+#experiments show prompt is modified during inference, so save it out too. Modified on the first pass through the loop only:
 imagearray2 = text_embeddings.cpu().numpy()
 tf.imwrite(args["savestate"] + "_prompt_unet.tiff", imagearray2, dtype='float16')

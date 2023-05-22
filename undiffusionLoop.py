@@ -1,3 +1,8 @@
+#This one is a bit of an odd duck. Still figuring out all the math involved, so it currently doesn't
+#un-diffuse back into a latent that can be re-diffused into the image (kind of the goal here) + prompt,
+#but we soldier on with the brain we have, not the brain we want. In the meantime, fun to play with and
+#figure out.
+
 import numpy
 import torch
 from diffusers import LMSDiscreteScheduler, UNet2DConditionModel #TODO: so far haven't found a good replacement, leaving for now
